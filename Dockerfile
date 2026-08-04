@@ -67,8 +67,8 @@ FROM eclipse-temurin:21.0.11_10-jre-resolute
 
 WORKDIR /app
 
-COPY target/carts-0.0.1-SNAPSHOT.jar /carts.jar
+COPY target/cart-0.0.1-SNAPSHOT.jar /cart.jar
 
 EXPOSE 8080
 
-ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar /app/carts.jar"]
+ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar /app/cart.jar"]
