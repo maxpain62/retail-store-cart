@@ -25,11 +25,11 @@ spec:
                 name: {{ .Values.metadata.labels.app }}-configmap
           resources:
             requests:
-              cpu: "100m"
-              memory: "64Mi"
-            limits:
-              cpu: "200m"
+              cpu: "150m"
               memory: "128Mi"
+            limits:
+              cpu: "300m"
+              memory: "256Mi"
           livenessProbe:
             httpGet:
               path: /actuator/health
