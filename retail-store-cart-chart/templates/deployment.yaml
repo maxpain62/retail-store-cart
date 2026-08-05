@@ -17,6 +17,12 @@ spec:
       containers:
         - name: {{ .Values.metadata.labels.app }}-container
           image: {{ .Values.containers.image }}:{{ .Values.containers.imagetag }}
+          env: 
+            - name: JAVA_OPTS
+              value: -XX:MaxRAMPercentage=75.0 -Djava.security.egd=file:/dev/urandom
+          envFrom:
+            - configMapRef:
+                name: {{ .Values.metadata.labels.app }}-configmap
           resources:
             requests:
               cpu: "100m"
@@ -40,4 +46,29 @@ spec:
             failureThreshold: 5          
           ports:
             - containerPort: {{ .Values.containers.ports.containerPort }}
+              protocol: TCP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.metadata.labels.app }}-dynamodb-deployment
+  labels:
+    app: {{ .Values.metadata.labels.app }}-dynamodb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.metadata.labels.app }}-dynamodb
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.metadata.labels.app }}-dynamodb
+    spec:
+      containers:
+        - name: {{ .Values.metadata.labels.app }}-dynamodb-container
+          image: "public.ecr.aws/aws-dynamodb-local/aws-dynamodb-local:1.25.1"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: dynamodb
+              containerPort: 8000
               protocol: TCP

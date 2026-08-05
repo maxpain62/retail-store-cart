@@ -11,3 +11,20 @@ spec:
     - port: {{ .Values.containers.ports.containerPort }}
       targetPort: {{ .Values.containers.ports.containerPort }}
   type: NodePort
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.metadata.labels.app }}-dynamodb-service
+  labels:
+    app: {{ .Values.metadata.labels.app }}-dynamodb
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8000
+      targetPort: dynamodb
+      protocol: TCP
+      name: dynamodb
+  selector:
+    app: {{ .Values.metadata.labels.app }}-dynamodb
+    
