@@ -67,6 +67,7 @@ FROM eclipse-temurin:21.0.11_10-jre-resolute
 
 WORKDIR /app
 
+COPY ./ATTRIBUTION.md ./LICENSES.md
 COPY target/cart-0.0.1-SNAPSHOT.jar ./cart.jar
 
 EXPOSE 8080
